@@ -1,0 +1,26 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    min-width: 120pt;
+    margin:auto
+}
+
+.buttons{
+    margin-top: 25pt;
+}
+.button-reg{
+    margin-top: 5pt;
+}
+
+.error{
+    color:red
+}
+.hide{
+    display: none;
+}
+
+
+.par{
+    height: 35pt
+}

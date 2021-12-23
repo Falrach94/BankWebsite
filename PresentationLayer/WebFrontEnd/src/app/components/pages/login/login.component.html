@@ -1,0 +1,25 @@
+
+<div class="form">
+    <mat-form-field>
+        <mat-label >Name:</mat-label>
+        <input matInput #name/>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Password:</mat-label>
+        <input matInput #pw/>
+    </mat-form-field>
+    <div class="par">
+
+    <mat-label [class.hide]="hasError$|async" class="error">{{error$ | async}}</mat-label>
+
+    </div>
+    <mat-form-field>
+        <mat-label>E-Mail:</mat-label>
+        <input matInput #email/>
+    </mat-form-field>      
+</div>
+<div class="form">
+    <button mat-raised-button (click)="performLogin(name.value, pw.value)" color ="primary" class="buttons">login</button>
+    <button mat-raised-button (click)="registerUser(name.value, email.value, pw.value)" color ="primary"  class="button-reg">register</button>
+    <!--button mat-raised-button (click)="performLogin('Falrach', 'test')"  color ="primary" class="buttons">skip</button-->
+</div>

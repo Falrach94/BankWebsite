@@ -1,0 +1,19 @@
+.group-container-element{
+    margin: 5pt
+}
+
+::ng-deep
+.group-container-element .mat-form-field-appearance-standard .mat-form-field-flex{
+    padding:0pt
+}
+::ng-deep
+.group-container-element .mat-form-field-infix{
+    border-top:0pt
+}
+
+.show{
+    display:block;
+}
+.hide{
+    display:none;
+}

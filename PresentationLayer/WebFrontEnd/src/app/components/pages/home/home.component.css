@@ -1,0 +1,44 @@
+
+.main-container{
+    display: flex;
+    width: 100%;
+    max-height: 100%;
+    margin:auto
+}
+
+.transactions-container{
+    overflow-y: auto;
+    max-height: 450pt;
+}
+
+.groups-container{
+    min-width: 200pt;
+    max-height: 450pt;
+    overflow-y: auto;
+}
+
+
+.groups-container.hide{
+    min-width: 0pt;
+    display: none;
+}
+
+
+::ng-deep
+.highlight .mat-card{
+    background-color: limegreen
+}
+
+::ng-deep 
+.transaction .mat-card-subtitle{
+    margin-bottom: 0pt;
+}
+
+::ng-deep 
+.main-container .mat-card-subtitle{
+    font-size: x-small
+}
+::ng-deep 
+.main-container .mat-card-title{
+    font-size: medium
+}

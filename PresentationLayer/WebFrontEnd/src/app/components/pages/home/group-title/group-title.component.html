@@ -1,0 +1,16 @@
+<mat-card style="background-color:lightslategray;" 
+          class="title-card">
+                {{title()}} 
+                (
+                    {{data?.transactions?.length}}x, 
+                    <span [class.hide]="data?.totalPlus===0">
+                        +{{data?.totalPlus|currency:'EUR'}} 
+                    </span> 
+                    <span [class.hide]="data?.totalPlus===0 || data?.totalMinus===0">
+                        |
+                    </span> 
+                    <span [class.hide]="data?.totalMinus===0">
+                        {{data?.totalMinus|currency:'EUR'}}
+                    </span> 
+                )
+</mat-card>

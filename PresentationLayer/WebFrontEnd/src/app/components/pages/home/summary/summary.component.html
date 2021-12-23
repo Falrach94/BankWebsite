@@ -1,0 +1,7 @@
+
+<div style="display: flex;">
+    <plotly-plot [data]="(balanceGraph.data$|async)!"
+                [layout]="balanceGraph.layout"></plotly-plot>
+    <plotly-plot [data]="(pieChart.data$|async)!"
+                [layout]="pieChart.layout"></plotly-plot>
+</div>

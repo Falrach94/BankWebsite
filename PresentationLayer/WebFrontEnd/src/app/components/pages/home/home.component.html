@@ -1,0 +1,24 @@
+
+<div align="center">
+    <button mat-button (click)="this.previousMonth();"><</button>
+    {{date | date:"MMMM yyyy"}}
+    <button mat-button (click)="this.nextMonth();">></button>
+</div>
+
+<app-summary></app-summary>
+
+<div class="main-container" >
+    <div cdkDropList class="transactions-container" >
+        <div *ngFor="let group of this.sort(transactionGroups$ | async)">
+            <app-group-title [data]="group"></app-group-title>
+            <app-transaction *ngFor="let transaction of group.transactions" 
+                            [transaction] = "transaction"
+                            class="transaction" 
+                            (cdkDragEnded)="drop(transactionComponent.transaction, $event)" 
+                            cdkDrag #transactionComponent></app-transaction>     
+        </div>   
+    </div>
+    <div class="groups-container" [class.hide]="!(isTransactionSelected$|async)">
+        <app-group-selector ></app-group-selector>
+    </div>
+</div>

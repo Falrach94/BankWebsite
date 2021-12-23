@@ -1,0 +1,8 @@
+<mat-card [class.selected]="(this.selectedTransaction$ |async)?.id===this.transaction.id" class="transaction" (dblclick)="this.onDoubleClick()">
+
+    <mat-card-header>
+        <mat-card-title>{{transaction.target}} ({{transaction.amount |currency:'EUR'}})</mat-card-title>
+        <mat-card-subtitle>{{transaction.date | date:"dd-MM-YYYY"}}: {{transaction.purpose | stringReplacement}}</mat-card-subtitle>
+    </mat-card-header>
+
+</mat-card>

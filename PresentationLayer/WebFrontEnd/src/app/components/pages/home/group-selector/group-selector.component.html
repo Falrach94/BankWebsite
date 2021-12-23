@@ -1,0 +1,18 @@
+<div class="group-selector">
+  <div style="display:flex; align-items: center;">
+    <mat-form-field appearance="standard">
+      <input [formControl]="searchTerm" matInput
+          (keydown.enter)= "this.onClickAddGroup(name.value);"
+          placeholder="search group" #name>
+    </mat-form-field>
+    <button mat-mini-fab color="primary" 
+            (click)="this.onClickAddGroup(name.value);"
+            style="margin-left: 5pt;">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <app-small-group style="margin-bottom: 4pt;" class="assignment-group" 
+        *ngFor="let g of groups$ | async" 
+        [group]="g"  #group>
+  </app-small-group>
+</div>

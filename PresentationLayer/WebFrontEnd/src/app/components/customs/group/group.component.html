@@ -1,0 +1,18 @@
+<mat-card  backcolor="red"  class="group-container-element" (mouseleave)="this.labelVisible = true">
+    <mat-card-title >
+        <div [class.hide]="!this.labelVisible" (click)="this.labelVisible=false; name.focus()" #labelDiv>{{group?.name}}</div>
+        <div [class.hide]="this.labelVisible">
+            <mat-form-field appearance="standard" #fieldDiv>
+               <!-- <mat-label>Name</mat-label>-->
+                <input [value]="group.name" matInput placeholder="group name" (keydown.enter)="this.labelVisible=true;onChangeName(name.value)" #name>
+            </mat-form-field>
+        </div>
+    </mat-card-title>
+
+    <mat-card-actions align="end">
+        <button mat-button (click)="onClickPickColor()">set color</button>
+        <button mat-button>set icon</button>
+        <button mat-button (click)="onClickRemove()">remove</button>
+    </mat-card-actions>
+
+</mat-card>

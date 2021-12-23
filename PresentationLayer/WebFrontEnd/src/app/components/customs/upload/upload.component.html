@@ -1,0 +1,11 @@
+<!--https://blog.angular-university.io/angular-file-upload/-->
+<input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+<div class="file-upload">
+
+    {{fileName || "Select File"}}
+ 
+     <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+         <mat-icon>attach_file</mat-icon>
+     </button>
+ </div>

@@ -1,0 +1,12 @@
+
+<mat-toolbar color="primary">
+    <nav>
+        <a routerLink="/user/home" routerLinkActive="active" mat-button>Home</a>
+        <a routerLink="/user/transactions" routerLinkActive="active" mat-button>Upload</a>
+        <a routerLink="/user/groups" routerLinkActive="active" mat-button>Manage Groups</a>
+        <button (click)="performLogout()" mat-icon-button><mat-icon>logout</mat-icon></button>
+    </nav>
+</mat-toolbar>
+<div style="width:70%; height:viewport; margin-left:auto; margin-right:auto">
+    <router-outlet></router-outlet>
+</div>
