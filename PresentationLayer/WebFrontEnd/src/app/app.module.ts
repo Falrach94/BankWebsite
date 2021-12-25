@@ -40,7 +40,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { AppEffects, AppReducers } from './store';
+import { AppEffects, AppMetaReducers, AppReducers } from './store';
 import { GroupEffects } from './store/groups/groups.effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StringReplacementPipe } from './pipes/string-replacement.pipe';
@@ -92,7 +92,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     ReactiveFormsModule,
     PlotlyModule,
     
-    StoreModule.forRoot(AppReducers),
+    StoreModule.forRoot(AppReducers, {metaReducers:AppMetaReducers}),
     EffectsModule.forRoot(AppEffects),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     
