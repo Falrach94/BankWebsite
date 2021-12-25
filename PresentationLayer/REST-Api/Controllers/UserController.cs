@@ -26,11 +26,11 @@ namespace WebBackend.Controllers
         }
 
         [HttpPost("auth")]
-        public async Task<ActionResult<UserDTO>> Authenticate([FromBody] string name, [FromBody] string password)
+        public async Task<ActionResult<UserDTO>> Authenticate([FromBody] Dictionary<string, string> dic)
         {
             try
             {
-                return await _accountService.AuthenticateUserAsync(name, password);
+                return await _accountService.AuthenticateUserAsync(dic["name"], dic["password"]);
             }
             catch (AuthentificationFailedException)
             {
@@ -38,7 +38,7 @@ namespace WebBackend.Controllers
             }
             catch (UserNotFoundException)
             {
-                return BadRequest($"Username '{name}' does not exist!");
+                return BadRequest($"Username '{dic["name"]}' does not exist!");
             }
             catch
             {
