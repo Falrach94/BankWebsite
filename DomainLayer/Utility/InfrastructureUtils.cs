@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,14 +26,14 @@ namespace BankAccountLib.Utility
                 var orderAccount = entryDic["Auftragskonto"];
                 DateTime bookingDate = default;
                 if(entryDic["Buchungstag"].Length != 0)
-                    bookingDate = DateTime.Parse(entryDic["Buchungstag"]);
-                var valueDate = DateTime.Parse(entryDic["Valutadatum"]);
+                    bookingDate = DateTime.ParseExact(entryDic["Buchungstag"],"dd.MM.yy", CultureInfo.InvariantCulture);
+                var valueDate = DateTime.ParseExact(entryDic["Valutadatum"], "dd.MM.yy", CultureInfo.InvariantCulture);
                 var bookingDescription = entryDic["Buchungstext"];
                 var purpose = entryDic["Verwendungszweck"];
                 var target = entryDic["Beguenstigter/Zahlungspflichtiger"];
                 var accountNumber = entryDic["Kontonummer"];
                 var bankCode = entryDic["BLZ"];
-                var amount = double.Parse(entryDic["Betrag"]);
+                var amount = double.Parse(entryDic["Betrag"], new CultureInfo("de-DE"));
                 var currency = entryDic["Waehrung"];
                 var info = entryDic["Info"];
 

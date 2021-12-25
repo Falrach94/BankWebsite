@@ -1,33 +1,40 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
-namespace AggregateDatabase.Migrations
+namespace PersistanceLayer.Migrations
 {
     public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "TransactionsProfile",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    UserId = table.Column<byte[]>(nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -38,15 +45,16 @@ namespace AggregateDatabase.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "GroupingProfile",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    GroupingProfileId = table.Column<byte[]>(nullable: true),
-                    UserId = table.Column<byte[]>(nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    GroupingProfileId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -63,17 +71,20 @@ namespace AggregateDatabase.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Classifier",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    FeatureSelection = table.Column<string>(nullable: true),
-                    UpdateTimestamp = table.Column<DateTime>(nullable: false),
-                    Extractor = table.Column<string>(nullable: true),
-                    GroupingProfileId = table.Column<byte[]>(nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Extractor = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    GroupingProfileId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    FeatureSelection = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UpdateTimestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,15 +95,17 @@ namespace AggregateDatabase.Migrations
                         principalTable: "GroupingProfile",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Group",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    GroupingProfileId = table.Column<byte[]>(nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    GroupingProfileId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -103,17 +116,19 @@ namespace AggregateDatabase.Migrations
                         principalTable: "GroupingProfile",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ClassifierExample",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Features = table.Column<string>(nullable: true),
-                    GroupId = table.Column<byte[]>(nullable: true),
-                    ClassifierId = table.Column<byte[]>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Features = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    GroupId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ClassifierId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -130,26 +145,35 @@ namespace AggregateDatabase.Migrations
                         principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "GroupExample",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    OrderAccount = table.Column<string>(nullable: true),
-                    BookingDate = table.Column<DateTime>(nullable: false),
-                    ValueDate = table.Column<DateTime>(nullable: false),
-                    Purpose = table.Column<string>(nullable: true),
-                    BookingDescription = table.Column<string>(nullable: true),
-                    Target = table.Column<string>(nullable: true),
-                    AccountNumber = table.Column<string>(nullable: true),
-                    BankCode = table.Column<string>(nullable: true),
-                    Amount = table.Column<double>(nullable: false),
-                    Currency = table.Column<string>(nullable: true),
-                    Info = table.Column<string>(nullable: true),
-                    TransactionGroupId = table.Column<byte[]>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    OrderAccount = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BookingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ValueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Purpose = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BookingDescription = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Target = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AccountNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BankCode = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Amount = table.Column<double>(type: "double", nullable: false),
+                    Currency = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Info = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TransactionGroupId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -160,27 +184,36 @@ namespace AggregateDatabase.Migrations
                         principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserTransaction",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
-                    Data_OrderAccount = table.Column<string>(nullable: true),
-                    Data_BookingDate = table.Column<DateTime>(nullable: true),
-                    Data_ValueDate = table.Column<DateTime>(nullable: true),
-                    Data_Purpose = table.Column<string>(nullable: true),
-                    Data_BookingDescription = table.Column<string>(nullable: true),
-                    Data_Target = table.Column<string>(nullable: true),
-                    Data_AccountNumber = table.Column<string>(nullable: true),
-                    Data_BankCode = table.Column<string>(nullable: true),
-                    Data_Amount = table.Column<double>(nullable: true),
-                    Data_Currency = table.Column<string>(nullable: true),
-                    Data_Info = table.Column<string>(nullable: true),
-                    GroupId = table.Column<byte[]>(nullable: true),
-                    TransactionsProfileId = table.Column<byte[]>(nullable: false),
-                    Timestamp = table.Column<DateTime>(nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Data_OrderAccount = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_BookingDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Data_ValueDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Data_Purpose = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_BookingDescription = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_Target = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_AccountNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_BankCode = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_Amount = table.Column<double>(type: "double", nullable: true),
+                    Data_Currency = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data_Info = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    GroupId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    TransactionsProfileId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,7 +230,8 @@ namespace AggregateDatabase.Migrations
                         principalTable: "TransactionsProfile",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Classifier_GroupingProfileId",

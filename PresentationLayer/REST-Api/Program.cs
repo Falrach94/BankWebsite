@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,15 @@ namespace WebBackend
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("https://*:44394");
+                    /*
+                    webBuilder.ConfigureKestrel(o =>
+                    {
+                        o.ConfigureHttpsDefaults(o =>
+                        {
+                            o.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                        });
+                    });*/
+                    webBuilder.UseUrls( "http://*:5000");
                     webBuilder.UseStartup<Startup>();
                 });
     }

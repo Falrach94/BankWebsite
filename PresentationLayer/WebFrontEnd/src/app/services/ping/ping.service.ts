@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { inject } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+const TIMEOUT = 2000
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class PingService {
   pingTimeMs$ = new BehaviorSubject<number>(-1)
   BASE_URL:string = ""
@@ -16,12 +18,48 @@ export class PingService {
       this.BASE_URL = baseUrl
     }
 
-  async ping(){
+    reping() {
+
+    }
+
+    pinger : any;
+
+    finished = false;
+
+
+  async ping(once:boolean){
+
+    this.finished = false;
+
     let stamp = performance.now();
-    await this._http.get(`${this.BASE_URL}api/ping`);
-    let t = performance.now()-stamp
-    console.log("ping: " + t + " ms")
-    return t;
+    let sub = this._http.get<number>(`${this.BASE_URL}api/ping`)
+              .subscribe(v =>
+    {
+      let t = performance.now()-stamp
+      if(t < TIMEOUT)
+      {
+        this.finished = true;
+        console.log("ping: " + t + " ms")
+      }
+    }, e=>{
+      this.finished = true;
+      console.log("Ping failed!", e)
+    })
+
+    setTimeout(() =>{
+      if(!this.finished)
+      {
+        console.log("Ping failed! (timeout)")
+        sub.unsubscribe()      
+      } 
+      if(!once)
+      {
+        this.ping(false);
+      }
+    }, TIMEOUT);
+  
+
+    return 0;
 
   }
 

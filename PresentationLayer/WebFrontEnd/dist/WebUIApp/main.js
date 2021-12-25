@@ -102,7 +102,7 @@ GroupComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineCom
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Benjamin Zehrer\Source\Repos\BankAccountLib\WebUIApp\src\main.ts */"zUnb");
+module.exports = __webpack_require__(/*! E:\Coding\BankWebsite\PresentationLayer\WebFrontEnd\src\main.ts */"zUnb");
 
 
 /***/ }),
@@ -771,7 +771,7 @@ class AppComponent {
         this.title = 'WebUIApp';
     }
     ngOnInit() {
-        this._pingService.ping();
+        this._pingService.ping(true);
         this._store.select(_store_account_account_selectors__WEBPACK_IMPORTED_MODULE_1__["AccountSelectors"].isLoginDone).subscribe(done => {
             if (!done) {
                 this._router.navigate(['\login']);
@@ -807,9 +807,10 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineCompo
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](12, "router-outlet");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     } }, directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_6__["MatToolbar"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterLinkWithHref"], _angular_material_button__WEBPACK_IMPORTED_MODULE_7__["MatAnchor"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterLinkActive"], _angular_material_button__WEBPACK_IMPORTED_MODULE_7__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_8__["MatIcon"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LmNzcyJ9 */"] });
-//export const baseUrl :String = "http://localhost:4200/";
+//export const baseUrl :String = "http://localhost:5000/";
 //export const baseUrl :String = "https://localhost:44394/";
-const baseUrl = "https://62.75.175.66:44394/";
+//export const baseUrl :String = "https://62.75.175.66:44394/";
+const baseUrl = "http://62.75.175.66:5000/";
 
 
 /***/ }),
@@ -982,7 +983,6 @@ class GroupSelectorComponent {
     ngOnInit() {
         this._store.dispatch(src_app_store_groups_groups_actions__WEBPACK_IMPORTED_MODULE_2__["GroupActions"].loadAll());
         this.searchTerm.valueChanges.subscribe(value => {
-            console.log(value);
             this._store.dispatch(src_app_store_groups_groups_actions__WEBPACK_IMPORTED_MODULE_2__["GroupActions"].selectTypeahead({ input: value }));
         });
     }
@@ -1646,20 +1646,42 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const TIMEOUT = 2000;
 class PingService {
     constructor(_http, baseUrl) {
         this._http = _http;
         this.pingTimeMs$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](-1);
         this.BASE_URL = "";
+        this.finished = false;
         this.BASE_URL = baseUrl;
     }
-    ping() {
+    reping() {
+    }
+    ping(once) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.finished = false;
             let stamp = performance.now();
-            yield this._http.get(`${this.BASE_URL}api/ping`);
-            let t = performance.now() - stamp;
-            console.log("ping: " + t + " ms");
-            return t;
+            let sub = this._http.get(`${this.BASE_URL}api/ping`)
+                .subscribe(v => {
+                let t = performance.now() - stamp;
+                if (t < TIMEOUT) {
+                    this.finished = true;
+                    console.log("ping: " + t + " ms");
+                }
+            }, e => {
+                this.finished = true;
+                console.log("Ping failed!", e);
+            });
+            setTimeout(() => {
+                if (!this.finished) {
+                    console.log("Ping failed! (timeout)");
+                    sub.unsubscribe();
+                }
+                if (!once) {
+                    this.ping(false);
+                }
+            }, TIMEOUT);
+            return 0;
         });
     }
 }

@@ -12,6 +12,7 @@ namespace WebBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[EnableCors("CorsPolicy")]
     public class GroupsController : Controller
     {
 

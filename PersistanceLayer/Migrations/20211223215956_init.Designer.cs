@@ -6,37 +6,36 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AggregateDatabase.Migrations
+namespace PersistanceLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211222130627_init")]
+    [Migration("20211223215956_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.22")
-                .HasAnnotation("PropertyAccessMode", PropertyAccessMode.Field)
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.13");
 
             modelBuilder.Entity("BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities.TransactionClassifier", b =>
                 {
-                    b.Property<byte[]>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(16)");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Extractor")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("FeatureSelection")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
-                    b.Property<byte[]>("GroupingProfileId")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<Guid?>("GroupingProfileId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("UpdateTimestamp")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -48,12 +47,12 @@ namespace AggregateDatabase.Migrations
 
             modelBuilder.Entity("BankAccountDomainModel.Modules.Transactions.TransactionsProfile", b =>
                 {
-                    b.Property<byte[]>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(16)");
+                        .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("UserId")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -65,15 +64,15 @@ namespace AggregateDatabase.Migrations
 
             modelBuilder.Entity("BankAccountLib.Data_Objects.Entities.GroupingProfile", b =>
                 {
-                    b.Property<byte[]>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(16)");
+                        .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("GroupingProfileId")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<Guid?>("GroupingProfileId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("UserId")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -88,15 +87,15 @@ namespace AggregateDatabase.Migrations
 
             modelBuilder.Entity("BankAccountLib.TransactionGroup", b =>
                 {
-                    b.Property<byte[]>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(16)");
+                        .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("GroupingProfileId")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<Guid?>("GroupingProfileId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -107,18 +106,18 @@ namespace AggregateDatabase.Migrations
 
             modelBuilder.Entity("WebBackend.Account_Domain_Model.Data_Objects.User", b =>
                 {
-                    b.Property<byte[]>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(16)");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Password")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -138,15 +137,14 @@ namespace AggregateDatabase.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
-                            b1.Property<byte[]>("ClassifierId")
-                                .IsRequired()
-                                .HasColumnType("varbinary(16)");
+                            b1.Property<Guid>("ClassifierId")
+                                .HasColumnType("char(36)");
 
                             b1.Property<string>("Features")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
-                            b1.Property<byte[]>("GroupId")
-                                .HasColumnType("varbinary(16)");
+                            b1.Property<Guid?>("GroupId")
+                                .HasColumnType("char(36)");
 
                             b1.HasKey("Id");
 
@@ -163,7 +161,11 @@ namespace AggregateDatabase.Migrations
                                 .WithMany()
                                 .HasForeignKey("GroupId")
                                 .OnDelete(DeleteBehavior.Cascade);
+
+                            b1.Navigation("Class");
                         });
+
+                    b.Navigation("TrainingSamples");
                 });
 
             modelBuilder.Entity("BankAccountDomainModel.Modules.Transactions.TransactionsProfile", b =>
@@ -175,20 +177,19 @@ namespace AggregateDatabase.Migrations
 
                     b.OwnsMany("BankAccountLib.Transactions.Filter.ClassifiedTransaction", "_transactions", b1 =>
                         {
-                            b1.Property<byte[]>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("varbinary(16)");
+                                .HasColumnType("char(36)");
 
-                            b1.Property<byte[]>("GroupId")
-                                .HasColumnType("varbinary(16)");
+                            b1.Property<Guid?>("GroupId")
+                                .HasColumnType("char(36)");
 
-                            b1.Property<byte[]>("TransactionsProfileId")
-                                .IsRequired()
-                                .HasColumnType("varbinary(16)");
+                            b1.Property<Guid>("TransactionsProfileId")
+                                .HasColumnType("char(36)");
 
                             b1.Property<DateTime>("_classificationTimestamp")
-                                .HasColumnName("Timestamp")
-                                .HasColumnType("datetime");
+                                .HasColumnType("datetime(6)")
+                                .HasColumnName("Timestamp");
 
                             b1.HasKey("Id");
 
@@ -208,41 +209,41 @@ namespace AggregateDatabase.Migrations
 
                             b1.OwnsOne("BankAccountLib.TransactionData", "Data", b2 =>
                                 {
-                                    b2.Property<byte[]>("ClassifiedTransactionId")
-                                        .HasColumnType("varbinary(16)");
+                                    b2.Property<Guid>("ClassifiedTransactionId")
+                                        .HasColumnType("char(36)");
 
                                     b2.Property<string>("AccountNumber")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<double>("Amount")
                                         .HasColumnType("double");
 
                                     b2.Property<string>("BankCode")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<DateTime>("BookingDate")
-                                        .HasColumnType("datetime");
+                                        .HasColumnType("datetime(6)");
 
                                     b2.Property<string>("BookingDescription")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<string>("Currency")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<string>("Info")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<string>("OrderAccount")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<string>("Purpose")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<string>("Target")
-                                        .HasColumnType("text");
+                                        .HasColumnType("longtext");
 
                                     b2.Property<DateTime>("ValueDate")
-                                        .HasColumnType("datetime");
+                                        .HasColumnType("datetime(6)");
 
                                     b2.HasKey("ClassifiedTransactionId");
 
@@ -251,7 +252,13 @@ namespace AggregateDatabase.Migrations
                                     b2.WithOwner()
                                         .HasForeignKey("ClassifiedTransactionId");
                                 });
+
+                            b1.Navigation("_group");
+
+                            b1.Navigation("Data");
                         });
+
+                    b.Navigation("_transactions");
                 });
 
             modelBuilder.Entity("BankAccountLib.Data_Objects.Entities.GroupingProfile", b =>
@@ -281,41 +288,40 @@ namespace AggregateDatabase.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("AccountNumber")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<double>("Amount")
                                 .HasColumnType("double");
 
                             b1.Property<string>("BankCode")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<DateTime>("BookingDate")
-                                .HasColumnType("datetime");
+                                .HasColumnType("datetime(6)");
 
                             b1.Property<string>("BookingDescription")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Currency")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Info")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("OrderAccount")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Purpose")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Target")
-                                .HasColumnType("text");
+                                .HasColumnType("longtext");
 
-                            b1.Property<byte[]>("TransactionGroupId")
-                                .IsRequired()
-                                .HasColumnType("varbinary(16)");
+                            b1.Property<Guid>("TransactionGroupId")
+                                .HasColumnType("char(36)");
 
                             b1.Property<DateTime>("ValueDate")
-                                .HasColumnType("datetime");
+                                .HasColumnType("datetime(6)");
 
                             b1.HasKey("Id");
 
@@ -326,6 +332,20 @@ namespace AggregateDatabase.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("TransactionGroupId");
                         });
+
+                    b.Navigation("ExampleTransactions");
+                });
+
+            modelBuilder.Entity("BankAccountDomainModel.Modules.Transactions.TransactionsProfile", b =>
+                {
+                    b.Navigation("_groupingProfile");
+                });
+
+            modelBuilder.Entity("BankAccountLib.Data_Objects.Entities.GroupingProfile", b =>
+                {
+                    b.Navigation("_classifier");
+
+                    b.Navigation("_groups");
                 });
 #pragma warning restore 612, 618
         }

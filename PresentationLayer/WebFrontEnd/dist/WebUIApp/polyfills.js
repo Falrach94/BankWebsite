@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Benjamin Zehrer\Source\Repos\BankAccountLib\WebUIApp\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! E:\Coding\BankWebsite\PresentationLayer\WebFrontEnd\src\polyfills.ts */"hN/g");
 
 
 /***/ }),

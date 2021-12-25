@@ -25,7 +25,6 @@ export class GroupSelectorComponent implements OnInit {
     this._store.dispatch(GroupActions.loadAll());
 
     this.searchTerm.valueChanges.subscribe(value => {
-        console.log(value);
         this._store.dispatch(GroupActions.selectTypeahead({input:value}))
       }     
     )

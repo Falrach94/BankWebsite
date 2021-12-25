@@ -15,7 +15,7 @@ namespace WebBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [EnableCors("CorsPolicy")]
+    //[EnableCors("CorsPolicy")]
     public class UserController : Controller
     {
         private readonly IAccountService _accountService;

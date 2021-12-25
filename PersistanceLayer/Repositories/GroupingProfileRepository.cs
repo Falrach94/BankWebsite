@@ -40,9 +40,10 @@ namespace AggregateDatabase.Repositories
         public async Task<GroupingProfile> GetByUserIdAsync(Guid userId)
         {
             var timestamp = DateTime.Now;
-            
-            var profile = await _dc.GroupingProfiles.FirstAsync(p => EF.Property<Guid>(p, "UserId") == userId);
-            Console.WriteLine("[GP-GetByUserId] SQL-Query (Grouping Profiles): " + (DateTime.Now - timestamp).TotalMilliseconds + " ms");
+
+            var profile = await _dc.GroupingProfiles.FirstOrDefaultAsync(p => EF.Property<Guid>(p, "UserId") == userId);
+
+             Console.WriteLine("[GP-GetByUserId] SQL-Query (Grouping Profiles): " + (DateTime.Now - timestamp).TotalMilliseconds + " ms");
             timestamp = DateTime.Now;
 
             await _dc.Entry(profile).Navigation("_groups").LoadAsync();

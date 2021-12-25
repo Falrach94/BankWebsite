@@ -3,6 +3,7 @@ using ApplicationLayer.DTOs;
 using ApplicationLayer.Services;
 using BankAccountLib;
 using BankAccountLib.Utility;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +17,7 @@ namespace WebBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+   // [EnableCors("CorsPolicy")]
     public class TransactionsController : Controller
     {
         private readonly ITransactionsService _transactionService;
@@ -27,33 +29,6 @@ namespace WebBackend.Controllers
             _groupingService = groupingService;
         }
 
-        private async Task<ActionResult<TransactionDTO[]>> UnrecognizedTransactions(Guid userId, DateTime from, DateTime to)
-        {
-            /*
-            var groups = await _userService.GetTransactionsAsync(from, to - from, userId);
-
-            var unrecognizedGroup = groups.Where(t => t.Group.Id == Guid.Empty).FirstOrDefault();
-
-            if (unrecognizedGroup is null)
-            {
-                return Enumerable.Empty<TransactionDTO>().ToArray();
-            }
-
-            return unrecognizedGroup.Transactions;*/
-            return null;
-        }
-
-        [HttpGet("unrecognized")]
-        public async Task<ActionResult<TransactionDTO[]>> UnrecognizedTransactions(Guid userId)
-        {
-            var from = new DateTime();
-            return await UnrecognizedTransactions(userId, from, DateTime.Now);
-        }
-        [HttpGet("unrecognized/{from}/{monthCount}")]
-        public async Task<ActionResult<TransactionDTO[]>> UnrecognizedTransactions(Guid userId, DateTime from, int monthCount)
-        {
-            return await UnrecognizedTransactions(userId, from, from.AddMonths(monthCount));
-        }
 
         [HttpGet("get/{userId}/{from}/{monthCount}")]
         public async Task<ActionResult<TransactionGroupDTO[]>> Get(Guid userId, DateTime from, int monthCount)

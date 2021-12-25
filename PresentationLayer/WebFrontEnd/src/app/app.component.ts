@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
   {
   }
   ngOnInit(): void {
-    this._pingService.ping();
+    this._pingService.ping(true);
     this._store.select(AccountSelectors.isLoginDone).subscribe(done=>{
       if(!done)
       {
@@ -36,6 +36,8 @@ export class AppComponent implements OnInit{
 
 }
 
-//export const baseUrl :String = "http://localhost:4200/";
-export const baseUrl :String = "https://localhost:44394/";
+//export const baseUrl :String = "https://localhost:44394/";
 //export const baseUrl :String = "https://62.75.175.66:44394/";
+
+export const baseUrl :String = "http://62.75.175.66:5000/";
+//export const baseUrl :String = "http://localhost:5000/";

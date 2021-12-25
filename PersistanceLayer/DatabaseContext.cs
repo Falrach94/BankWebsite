@@ -40,7 +40,7 @@ namespace AggregateDatabase
         {
           //  optionsBuilder.EnableSensitiveDataLogging();
             //string t = ConfigurationManager.ConnectionStrings["BankDBContext"].ConnectionString;
-            string t = "Server = 62.75.175.66; Port = 3306; Database = bankDB; Uid = bankDBUser; Pwd = bank_pw;";
+            string connectionString = "Server = 62.75.175.66; Port = 3306; Database = bankDB; Uid = bankDBUser; Pwd = bank_pw;";
 
             var configureNamedOptions = new ConfigureNamedOptions<ConsoleLoggerOptions>("", null);
             var optionsFactory = new OptionsFactory<ConsoleLoggerOptions>(new[] { configureNamedOptions }, Enumerable.Empty<IPostConfigureOptions<ConsoleLoggerOptions>>());
@@ -48,7 +48,7 @@ namespace AggregateDatabase
             var loggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider(optionsMonitor) }, new LoggerFilterOptions { MinLevel = LogLevel.Information });
 
             optionsBuilder.UseLoggerFactory(loggerFactory);
-            optionsBuilder.UseMySQL(t).EnableSensitiveDataLogging();
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
