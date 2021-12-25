@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs';
 import { GroupsService } from 'src/app/services/groups/groups.service';
 import { AppState } from 'src/app/store';
 import { GroupActions } from 'src/app/store/groups/groups.actions';
-import { GroupContainerComponent } from '../../customs/group-container/group-container.component';
-import { NewGroupDialog } from '../../dialogs/new-group/new-group.component';
+import { GroupContainerComponent } from '../../components/customs/group-container/group-container.component';
+import { NewGroupDialog } from '../../components/dialogs/new-group/new-group.component';
 
 @Component({
   selector: 'app-groups',

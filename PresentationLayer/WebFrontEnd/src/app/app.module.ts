@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './routing/app-routing.module';
-import { AppComponent, baseUrl } from './app.component';
+import { AppComponent } from './app.component';
 
-import { LoginComponent } from './components/pages/login/login.component';
-import { HomeComponent } from './components/pages/home/home.component';
-import { UploadPageComponent } from './components/pages/upload/upload.component';
-import { GroupsComponent } from './components/pages/groups/groups.component';
+import { LoginComponent } from './pages/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
+import { UploadPageComponent } from './pages/upload/upload.component';
+import { GroupsComponent } from './pages/groups/groups.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -33,9 +33,9 @@ import { NewGroupDialog } from './components/dialogs/new-group/new-group.compone
 
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import { ColorDialogComponent } from './components/dialogs/color-dialog/color-dialog.component';
-import { SmallGroupComponent } from './components/pages/home/small-group/small-group.component';
-import { GroupTitleComponent } from './components/pages/home/group-title/group-title.component';
-import { GroupSelectorComponent } from './components/pages/home/group-selector/group-selector.component';
+import { SmallGroupComponent } from './pages/home/small-group/small-group.component';
+import { GroupTitleComponent } from './pages/home/group-title/group-title.component';
+import { GroupSelectorComponent } from './pages/home/group-selector/group-selector.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -48,7 +48,7 @@ import { StringReplacementPipe } from './pipes/string-replacement.pipe';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
-import { SummaryComponent } from './components/pages/home/summary/summary.component';
+import { SummaryComponent } from './pages/home/summary/summary.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -99,7 +99,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     
     //StoreModule.forFeature(fromState.stateFeatureKey, fromState.reducers, { metaReducers: fromState.metaReducers })
   ],
-  providers: [{provide: 'baseUrl', useValue: baseUrl},
+  providers: [//{provide: 'baseUrl', useValue: baseUrl},
               {provide: LOCALE_ID, useValue: 'de-DE'},
             ],
   bootstrap: [AppComponent]

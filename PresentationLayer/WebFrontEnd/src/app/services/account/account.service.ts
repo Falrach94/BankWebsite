@@ -2,22 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { first } from 'rxjs/operators';
-import { baseUrl } from 'src/app/app.component';
 import { IUser } from 'src/app/model/user';
 import { AccountSelectors } from 'src/app/store/account/account.selectors';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  BASE_URL?:string;
-
   constructor(private _http:HttpClient,
-             @Inject('baseUrl')baseUrl:string,
              private _store :Store)
   {
-    this.BASE_URL = baseUrl;
   }
 
   getId() {
@@ -26,9 +22,9 @@ export class AccountService {
                .pipe(first()).subscribe(val => id = val)
     return id;
   }
-  authenticate(name: string, pw: string) {
-    let url =`${this.BASE_URL}api/user/auth/${name}/${pw}` 
-    return this._http.get<IUser>(url);
+  authenticate(name: string, password: string) {
+    let url =`${environment.apiUrl}/user/auth` 
+    return this._http.post<IUser>(url, {name, password});
   }
   createAccount(name: string, email:string, pw: string) {
     console.log("email:'" + email+"'")
@@ -36,7 +32,7 @@ export class AccountService {
       email = "none"
     }
 
-    let url =`${this.BASE_URL}api/user/create/${name}/${email}/${pw}` 
+    let url =`${environment.apiUrl}/user/create/${name}/${email}/${pw}` 
     return this._http.get<IUser>(url);
   }
 

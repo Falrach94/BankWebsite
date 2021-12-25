@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UploadPageComponent } from '../components/pages/upload/upload.component';
-import { GroupsComponent } from '../components/pages/groups/groups.component';
-import { HomeComponent } from '../components/pages/home/home.component';
-import { LoginComponent } from '../components/pages/login/login.component';
+import { UploadPageComponent } from '../pages/upload/upload.component';
+import { GroupsComponent } from '../pages/groups/groups.component';
+import { HomeComponent } from '../pages/home/home.component';
+import { LoginComponent } from '../pages/login/login.component';
 import { LoginGuard } from './guards/loginGuard';
 
 const userRoutes: Routes = [

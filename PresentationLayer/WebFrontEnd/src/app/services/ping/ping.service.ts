@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 const TIMEOUT = 2000
 
@@ -10,17 +11,14 @@ const TIMEOUT = 2000
 
 export class PingService {
   pingTimeMs$ = new BehaviorSubject<number>(-1)
-  BASE_URL:string = ""
 
-  constructor(private _http: HttpClient, 
-              @Inject('baseUrl')baseUrl:string) {
+  constructor(private _http: HttpClient)
+              //@Inject('baseUrl')baseUrl:string) 
+              {
                 
-      this.BASE_URL = baseUrl
+     // this.BASE_URL = baseUrl
     }
 
-    reping() {
-
-    }
 
     pinger : any;
 
@@ -32,7 +30,7 @@ export class PingService {
     this.finished = false;
 
     let stamp = performance.now();
-    let sub = this._http.get<number>(`${this.BASE_URL}api/ping`)
+    let sub = this._http.get<number>(`${environment.apiUrl}/ping`)
               .subscribe(v =>
     {
       let t = performance.now()-stamp

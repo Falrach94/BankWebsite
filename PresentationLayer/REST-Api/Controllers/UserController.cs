@@ -25,8 +25,8 @@ namespace WebBackend.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet("auth/{name}/{password}")]
-        public async Task<ActionResult<UserDTO>> Authenticate(string name, string password)
+        [HttpPost("auth")]
+        public async Task<ActionResult<UserDTO>> Authenticate([FromBody] string name, [FromBody] string password)
         {
             try
             {

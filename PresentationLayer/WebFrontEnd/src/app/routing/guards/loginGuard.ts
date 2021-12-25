@@ -26,6 +26,7 @@ export class LoginGuard implements CanActivate{
             console.log("redirect to login");
             const url = encodeURI(state.url);
             this._router.navigate(['/login'], {queryParams: {redirect:url}})
+            return false;
         }
         return true;
     }

@@ -6,33 +6,30 @@ import { tap, map, first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AccountSelectors } from 'src/app/store/account/account.selectors';
 import { AccountService } from '../account/account.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupsService {
 
-  BASE_URL:string = ""
-
   groupsChanged$ : Subject<IGroup> = new Subject<IGroup>();
 
   constructor(private _http: HttpClient, 
-              private _accountService:AccountService,
-              @Inject('baseUrl')baseUrl:string) 
+              private _accountService:AccountService)
   {
-    this.BASE_URL = baseUrl
   }
 
   getGroups(): Observable<IGroup[]>
   {
-    let url = `${this.BASE_URL}api/groups/${this._accountService.getId()}`
+    let url = `${environment.apiUrl}/groups/${this._accountService.getId()}`
     return this._http.get<IGroup[]>(url)
   }
 
 
   saveGroup(group:IGroup)
   {   
-    const url:string = `${this.BASE_URL}api/groups/${this._accountService.getId()}/`
+    const url:string = `${environment.apiUrl}/groups/${this._accountService.getId()}/`
     
     const method:string = group.id ? 'PUT' : 'POST';
     
@@ -44,13 +41,13 @@ export class GroupsService {
 
   removeGroup(group:IGroup)
   {
-    let url = `${this.BASE_URL}api/groups/${this._accountService.getId()}/${group.id}`
+    let url = `${environment.apiUrl}/groups/${this._accountService.getId()}/${group.id}`
     return this._http.delete(url).pipe(tap(_=>this.groupsChanged$.next(group)))
   }
 
 
   addGroup(group: IGroup) {
-    const url:string = `${this.BASE_URL}api/groups/${this._accountService.getId()}`
+    const url:string = `${environment.apiUrl}/groups/${this._accountService.getId()}`
     
     return this._http.post<IGroup>(url,group);
     
