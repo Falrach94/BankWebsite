@@ -1,8 +1,8 @@
 ﻿using AggregateDatabase;
 using ApplicationLayer.DTOs;
-using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
-using BankAccountDomainModel.Repositories;
-using BankAccountDomainModel.Services;
+using DomainLayer.Modules.Grouping.Data_Objects.Entities;
+using DomainLayer.Repositories;
+using DomainLayer.Services;
 using BankAccountLib;
 using BankAccountLib.Data_Objects.Entities;
 using BankAccountLib.Repositories;
@@ -119,7 +119,7 @@ namespace ApplicationLayer.Services
             stamp = DateTime.Now;
 
 
-            var group = BankAccountDomainModel.Services.TransactionsService.AddTransactionToGroup(groupingProfile, transactionsProfile, groupId, transactionId);
+            var group = DomainLayer.Services.TransactionsService.AddTransactionToGroup(groupingProfile, transactionsProfile, groupId, transactionId);
 
             Console.WriteLine("[ATTG] Domain-Query: " + (DateTime.Now - stamp).TotalMilliseconds + " ms");
             stamp = DateTime.Now;

@@ -9,69 +9,28 @@ using System.Xml.Serialization;
 
 namespace BankAccountLib.Utility
 {
+
+    static class CSVEntries
+    {
+        public const string OrderAccount = "Auftragskonto";
+        public const string BookingDate = "Buchungstag";
+        public const string ValueDate = "Valutadatum";
+        public const string BookingDescription = "Buchungstext";
+        public const string Purpose = "Verwendungszweck";
+        public const string Target = "Beguenstigter/Zahlungspflichtiger";
+        public const string AccountNumber = "Kontonummer";
+        public const string BankCode = "BLZ";
+        public const string Amount = "Betrag";
+        public const string Currency = "Waehrung";
+        public const string Info = "Info";
+
+    }
+
     /// <summary>
     /// Utility class for accessing data files.
     /// </summary>
     public static class InfrastructureUtils
     {
-        /// <summary>
-        /// Creates transaction from csv dictionary.
-        /// </summary>
-        /// <param name="entryDic"></param>
-        /// <returns></returns>
-        private static TransactionData LoadTransactionEntry(Dictionary<string, string> entryDic)
-        {
-            try
-            {
-                var orderAccount = entryDic["Auftragskonto"];
-                DateTime bookingDate = default;
-                if(entryDic["Buchungstag"].Length != 0)
-                    bookingDate = DateTime.ParseExact(entryDic["Buchungstag"],"dd.MM.yy", CultureInfo.InvariantCulture);
-                var valueDate = DateTime.ParseExact(entryDic["Valutadatum"], "dd.MM.yy", CultureInfo.InvariantCulture);
-                var bookingDescription = entryDic["Buchungstext"];
-                var purpose = entryDic["Verwendungszweck"];
-                var target = entryDic["Beguenstigter/Zahlungspflichtiger"];
-                var accountNumber = entryDic["Kontonummer"];
-                var bankCode = entryDic["BLZ"];
-                var amount = double.Parse(entryDic["Betrag"], new CultureInfo("de-DE"));
-                var currency = entryDic["Waehrung"];
-                var info = entryDic["Info"];
-
-                return new TransactionData(orderAccount, bookingDate, valueDate, purpose, bookingDescription, target, accountNumber, bankCode, amount, currency, info);
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new FormatException($"Entry format does not match expectation!");
-            }
-        }
-
-        /// <summary>
-        /// Creates all transactions stored in a RawCSVFile.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <param name="ignoreFutureTransactions"></param>
-        /// <returns></returns>
-        public static List<TransactionData> LoadTransactionsFromFile(RawCSVFile file, bool ignoreFutureTransactions)
-        {
-            var list = new List<TransactionData>();
-
-            foreach (var entry in file.Data)
-            {
-                var e = LoadTransactionEntry(entry);
-                if (!ignoreFutureTransactions || e.Info != "Umsatz vorgemerkt")
-                {
-                    list.Add(e);
-                }
-            }
-
-            return list;
-        }  
-        public static List<TransactionData> LoadTransactionsFromFile(string path, bool ignoreFutureTransactions)
-        {
-            var file = RawCSVFile.LoadAsync(path);
-            file.Wait();
-            return LoadTransactionsFromFile(file.Result, ignoreFutureTransactions);
-        }
         /// <summary>
         /// Loads TransactionGroup objects from XML-file.
         /// </summary>

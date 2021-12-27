@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace PersistanceLayer.Migrations
 {
-    public partial class init : Migration
+    public partial class uploadmanager : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,41 +32,15 @@ namespace PersistanceLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "TransactionsProfile",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TransactionsProfile", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TransactionsProfile_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "GroupingProfile",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    GroupingProfileId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupingProfile", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupingProfile_TransactionsProfile_GroupingProfileId",
-                        column: x => x.GroupingProfileId,
-                        principalTable: "TransactionsProfile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GroupingProfile_User_UserId",
                         column: x => x.UserId,
@@ -114,6 +90,32 @@ namespace PersistanceLayer.Migrations
                         name: "FK_Group_GroupingProfile_GroupingProfileId",
                         column: x => x.GroupingProfileId,
                         principalTable: "GroupingProfile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "TransactionsProfile",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    GroupingProfileId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionsProfile", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TransactionsProfile_GroupingProfile_GroupingProfileId",
+                        column: x => x.GroupingProfileId,
+                        principalTable: "GroupingProfile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TransactionsProfile_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -188,6 +190,34 @@ namespace PersistanceLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "UploadManager",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TransactionsProfileId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    File = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadManager", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UploadManager_TransactionsProfile_TransactionsProfileId",
+                        column: x => x.TransactionsProfileId,
+                        principalTable: "TransactionsProfile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UploadManager_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UserTransaction",
                 columns: table => new
                 {
@@ -233,6 +263,34 @@ namespace PersistanceLayer.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "UploadSummary",
+                columns: table => new
+                {
+                    UploadManagerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Size = table.Column<int>(type: "int", nullable: false),
+                    First = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Last = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UsefullCount = table.Column<int>(type: "int", nullable: false),
+                    FirstAdded = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastAdded = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadSummary", x => new { x.UploadManagerId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_UploadSummary_UploadManager_UploadManagerId",
+                        column: x => x.UploadManagerId,
+                        principalTable: "UploadManager",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Classifier_GroupingProfileId",
                 table: "Classifier",
@@ -260,20 +318,32 @@ namespace PersistanceLayer.Migrations
                 column: "TransactionGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupingProfile_GroupingProfileId",
-                table: "GroupingProfile",
-                column: "GroupingProfileId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GroupingProfile_UserId",
                 table: "GroupingProfile",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TransactionsProfile_GroupingProfileId",
+                table: "TransactionsProfile",
+                column: "GroupingProfileId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TransactionsProfile_UserId",
                 table: "TransactionsProfile",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadManager_TransactionsProfileId",
+                table: "UploadManager",
+                column: "TransactionsProfileId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadManager_UserId",
+                table: "UploadManager",
                 column: "UserId",
                 unique: true);
 
@@ -297,19 +367,25 @@ namespace PersistanceLayer.Migrations
                 name: "GroupExample");
 
             migrationBuilder.DropTable(
+                name: "UploadSummary");
+
+            migrationBuilder.DropTable(
                 name: "UserTransaction");
 
             migrationBuilder.DropTable(
                 name: "Classifier");
 
             migrationBuilder.DropTable(
+                name: "UploadManager");
+
+            migrationBuilder.DropTable(
                 name: "Group");
 
             migrationBuilder.DropTable(
-                name: "GroupingProfile");
+                name: "TransactionsProfile");
 
             migrationBuilder.DropTable(
-                name: "TransactionsProfile");
+                name: "GroupingProfile");
 
             migrationBuilder.DropTable(
                 name: "User");

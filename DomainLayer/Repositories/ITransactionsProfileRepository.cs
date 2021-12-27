@@ -1,4 +1,4 @@
-﻿using BankAccountDomainModel.Modules.Transactions;
+﻿using DomainLayer.Modules.Transactions;
 using BankAccountLib.Data_Objects.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebBackend.Account_Domain_Model.Data_Objects;
 
-namespace BankAccountDomainModel.Repositories
+namespace DomainLayer.Repositories
 {
     public interface ITransactionsProfileRepository
     {

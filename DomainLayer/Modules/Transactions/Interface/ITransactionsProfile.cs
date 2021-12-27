@@ -2,7 +2,7 @@
 using BankAccountLib.Transactions.Filter;
 using System.Collections.Generic;
 
-namespace BankAccountDomainModel.Modules.Transactions
+namespace DomainLayer.Modules.Transactions
 {
     public interface ITransactionsProfile : ITransactionsProfileRead
     {

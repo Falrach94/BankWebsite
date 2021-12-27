@@ -1,5 +1,5 @@
-﻿using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
-using BankAccountDomainModel.Repositories;
+﻿using DomainLayer.Modules.Grouping.Data_Objects.Entities;
+using DomainLayer.Repositories;
 using BankAccountLib;
 using BankAccountLib.Data_Objects.Entities;
 using BankAccountLib.Repositories;

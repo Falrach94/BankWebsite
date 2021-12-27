@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UploadSummary } from 'src/app/model/uploadSummary';
 import { IGroup } from 'src/app/model/group';
 import { ITransaction } from 'src/app/model/transaction';
 import { ITransactionGroup } from 'src/app/model/transactionGroup';
 import { environment } from 'src/environments/environment';
 import { AccountService } from '../account/account.service';
+import { UploadPreview } from 'src/app/model/uploadPreview';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +34,16 @@ export class TransactionsService{// implements OnInit, OnDestroy {
     return this._http.put(url,{})
   }
 
+  loadFileSummaries(){
+    
+    let url:string = `${environment.apiUrl}/transactions/summaries/${this._accountService.getId()}`;
+    return this._http.get<UploadSummary[]>(url);
+  }
+
+  confirmUpload(){
+    let url = `${environment.apiUrl}/transactions/applyPreview/${this._accountService.getId()}`
+    return this._http.post<UploadSummary>(url, {});
+  }
   
   uploadCSVFile(file: File)
   {
@@ -48,6 +60,6 @@ export class TransactionsService{// implements OnInit, OnDestroy {
 
     let url = `${environment.apiUrl}/transactions/upload/${this._accountService.getId()}`
 
-    return this._http.post<ITransactionGroup[]>(url, formData)
+    return this._http.post<UploadPreview>(url, formData)
   }      
 }

@@ -6,7 +6,7 @@ import { GroupsService } from 'src/app/services/groups/groups.service';
 import { AppState } from 'src/app/store';
 import { GroupActions } from 'src/app/store/groups/groups.actions';
 import { GroupReducer } from 'src/app/store/groups/groups.reducer';
-import { ColorDialogComponent } from '../../dialogs/color-dialog/color-dialog.component';
+import { ColorDialogComponent } from '../../../components/dialogs/color-dialog/color-dialog.component';
 
 @Component({
   selector: 'app-group',

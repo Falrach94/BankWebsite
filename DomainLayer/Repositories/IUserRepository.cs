@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebBackend.Account_Domain_Model.Data_Objects;
 
-namespace BankAccountDomainModel.Repositories
+namespace DomainLayer.Repositories
 {
     public interface IUserRepository
     {

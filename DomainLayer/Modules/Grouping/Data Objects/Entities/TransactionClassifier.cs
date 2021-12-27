@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities
+namespace DomainLayer.Modules.Grouping.Data_Objects.Entities
 {
     public class TransactionClassifier : ClassificationContext
     {

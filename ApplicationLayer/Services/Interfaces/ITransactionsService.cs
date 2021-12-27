@@ -8,8 +8,11 @@ namespace ApplicationLayer
 {
     public interface ITransactionsService
     {
-        Task<IEnumerable<TransactionDTO>> AddTransactionsAsync(Guid userId, IEnumerable<TransactionData> transactions);
-
         Task<IEnumerable<TransactionGroupDTO>> GetTransactionsAsync(Guid userId, DateTime from, TimeSpan len);
+
+        Task<UploadPreviewDTO> UploadPreviewAsync(Guid userId, RawCSVFile file);
+        Task<UploadSummaryDTO> ApplyPreviewAsync(Guid userId);
+
+        Task<IEnumerable<UploadSummaryDTO>> GetUploadSummariesAsync(Guid userId);
     }
 }

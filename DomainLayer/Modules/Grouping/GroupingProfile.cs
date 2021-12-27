@@ -1,5 +1,5 @@
-﻿using BankAccountDomainModel.Modules.Grouping.Classification;
-using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
+﻿using DomainLayer.Modules.Grouping.Classification;
+using DomainLayer.Modules.Grouping.Data_Objects.Entities;
 using BankAccountLib.Classification;
 using BankAccountLib.Classification.Classificator;
 using BankAccountLib.Classification.Data;

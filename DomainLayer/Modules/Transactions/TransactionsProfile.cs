@@ -8,11 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccountDomainModel.Modules.Transactions
+namespace DomainLayer.Modules.Transactions
 {
     public class TransactionsProfile : Entity, ITransactionsProfile
     {
-
         /// <summary>
         /// transactions stored for this user
         /// </summary>
@@ -64,11 +63,6 @@ namespace BankAccountDomainModel.Modules.Transactions
 
             return cts;
         }
-        /*
-        public IClassifiedTransaction GetTransactionById(Guid transactionId)
-        {
-            return _transactions.Find(t => t.Id == transactionId);
-        }
-        */
+
     }
 }

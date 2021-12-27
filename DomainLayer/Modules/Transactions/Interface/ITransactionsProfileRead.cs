@@ -1,9 +1,9 @@
-﻿using BankAccountDomainModel.Utility;
+﻿using DomainLayer.Utility;
 using BankAccountLib.Transactions.Filter;
 using System;
 using System.Collections.Generic;
 
-namespace BankAccountDomainModel.Modules.Transactions
+namespace DomainLayer.Modules.Transactions
 {
     public interface ITransactionsProfileRead : IEntity
     {

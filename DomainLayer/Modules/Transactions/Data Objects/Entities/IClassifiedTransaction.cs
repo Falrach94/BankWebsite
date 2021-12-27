@@ -1,5 +1,5 @@
-﻿using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
-using BankAccountDomainModel.Utility;
+﻿using DomainLayer.Modules.Grouping.Data_Objects.Entities;
+using DomainLayer.Utility;
 using System;
 
 namespace BankAccountLib.Transactions.Filter

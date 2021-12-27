@@ -1,6 +1,6 @@
 ﻿using AggregateDatabase;
 using ApplicationLayer.DTOs;
-using BankAccountDomainModel.Repositories;
+using DomainLayer.Repositories;
 using BankAccountLib.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,15 +16,18 @@ namespace ApplicationLayer.Services.Implementations
         private readonly IUserRepository _userRepo;
         private readonly ITransactionsProfileRepository _transactionsRepo;
         private readonly IGroupingProfileRepository _groupingRepo;
+        private readonly IUploadHistoryRepository _uploadManagerRepo;
 
         public AccountService(DatabaseContext dc,
                               IUserRepository userRepo,
                               IGroupingProfileRepository profileRepo,
-                              ITransactionsProfileRepository transactionsRepo)
+                              ITransactionsProfileRepository transactionsRepo,
+                              IUploadHistoryRepository historyRepo)
         {
             _userRepo = userRepo;
             _transactionsRepo = transactionsRepo;
             _groupingRepo = profileRepo;
+            _uploadManagerRepo = historyRepo;
             _dc = dc;
         }
 
@@ -50,42 +53,22 @@ namespace ApplicationLayer.Services.Implementations
                 throw new NameAlreadyUsedException();
             }
 
-            var result = BankAccountDomainModel.Services.AccountService.CreateNewAccount(name, email, password);
+            var result = DomainLayer.Services.AccountService.CreateNewAccount(name, email, password);
 
-            await _userRepo.AddUserAsync(result.Item3);
-            await _groupingRepo.AddProfileAsync(result.Item1, result.Item3);
-            await _groupingRepo.SaveAsync();
-            await _transactionsRepo.AddProfileAsync(result.Item2, result.Item3);
-            await _transactionsRepo.SaveAsync();
-            await _userRepo.SaveAsync();
+            var user = result.Item3;
+            var uploadManager = result.Item4;
+            var transactionsProfile = result.Item2;
+            var groupingProfile = result.Item1;
+
+
+            await _userRepo.AddUserAsync(user);
+            await _groupingRepo.AddProfileAsync(groupingProfile, user);
+            await _transactionsRepo.AddProfileAsync(transactionsProfile, user);
+            await _uploadManagerRepo.AddUploadManager(uploadManager, user);
+            await _dc.SaveChangesAsync();
 
             return new UserDTO(result.Item3);
 
-            /*
-
-            //create new user without profiles
-            var newUser = new User(name);
-
-            //synchronize user with db      
-            await _userRepo.AddUserAsync(newUser);
-            await _userRepo.SaveAsync();
-
-
-            //create new profile and add to user
-            var profile = new GroupingProfile(new());
-            newUser.AddProfile(profile);
-            _dc.Entry(profile).State = EntityState.Added;
-            _dc.Entry(profile.Classifier).State = EntityState.Added;
-
-
-            //synchronize user with db  
-            await _userRepo.SaveAsync();
-
-            //synchronize profile with db
-            await _transactionsRepo.AddProfileAsync(profile, newUser);
-            await _transactionsRepo.SaveAsync();
-            return new UserDTO(newUser);
-            */
         }
 
     }

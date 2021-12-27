@@ -47,13 +47,4 @@ export class TransactionsEffects{
         ))
     ));
     
-    upload = createEffect(()=>this._actions$.pipe(
-        ofType(TransactionActions.upload),
-        switchMap(({file}) => 
-            this._transactionService.uploadCSVFile(file)
-            .pipe(
-                map(_ => TransactionActions.uploadSuccess()),
-                catchError((error) => of(TransactionActions.uploadFailure({error})))
-        ))
-    ));
 }

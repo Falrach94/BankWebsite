@@ -1,13 +1,17 @@
-﻿using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
-using BankAccountDomainModel.Modules.Transactions;
+﻿using DomainLayer.Modules.Grouping.Data_Objects.Entities;
+using DomainLayer.Modules.Transactions;
 using BankAccountLib.Data_Objects.Entities;
+using DomainLayer.Modules.UploadSupervisor;
+using DomainLayer.Modules.UploadSupervisor.VOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BankAccountLib;
+using BankAccountLib.Utility;
 
-namespace BankAccountDomainModel.Services
+namespace DomainLayer.Services
 {
     public static class TransactionsService
     {
@@ -23,5 +27,6 @@ namespace BankAccountDomainModel.Services
             }
             return groupingProfile.AddTransactionToGroup(groupId, transaction.Data);
         }
+
     }
 }

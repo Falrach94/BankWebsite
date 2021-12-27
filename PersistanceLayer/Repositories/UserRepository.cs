@@ -1,4 +1,4 @@
-﻿using BankAccountDomainModel.Repositories;
+﻿using DomainLayer.Repositories;
 using BankAccountLib;
 using BankAccountLib.Data_Objects.Entities;
 using Microsoft.EntityFrameworkCore;

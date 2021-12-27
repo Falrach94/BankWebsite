@@ -3,7 +3,7 @@ using AggregateDatabase.Repositories;
 using ApplicationLayer;
 using ApplicationLayer.Services;
 using ApplicationLayer.Services.Implementations;
-using BankAccountDomainModel.Repositories;
+using DomainLayer.Repositories;
 using BankAccountLib.Repositories;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
@@ -62,6 +62,7 @@ namespace WebBackend
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGroupingProfileRepository, GroupingProfileRepository>();
             services.AddScoped<ITransactionsProfileRepository, TransactionsProfileRepository>();
+            services.AddScoped<IUploadHistoryRepository, UploadHistoryRepository>();
             services.AddScoped<ITransactionsService, TransactionsService>();
             services.AddScoped<IGroupingService, GroupingService>();
             services.AddScoped<IAccountService, AccountService>();

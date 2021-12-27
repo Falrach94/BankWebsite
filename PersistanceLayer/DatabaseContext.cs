@@ -1,5 +1,5 @@
-﻿using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
-using BankAccountDomainModel.Modules.Transactions;
+﻿using DomainLayer.Modules.Grouping.Data_Objects.Entities;
+using DomainLayer.Modules.Transactions;
 using BankAccountLib;
 using BankAccountLib.Classification.Data;
 using BankAccountLib.Classification.Extractor;
@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WebBackend.Account_Domain_Model.Data_Objects;
+using DomainLayer.Modules.UploadSupervisor;
 
 namespace AggregateDatabase
 {
@@ -57,6 +58,7 @@ namespace AggregateDatabase
             modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
             modelBuilder.ApplyConfiguration(new GroupingProfileEntityConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionsProfileEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new UploadManagerConfiguration());
 
             modelBuilder.Entity<TransactionGroup>(groupBuilder =>
             {
@@ -73,7 +75,6 @@ namespace AggregateDatabase
                     transactionBuilder.HasKey("Id");
                 });
             });
-
 
             modelBuilder.Entity<TransactionClassifier>(classifierBuilder =>
             {
@@ -187,7 +188,7 @@ namespace AggregateDatabase
                 //corresponding grouping profile
                 profileBuilder.HasOne<GroupingProfile>("_groupingProfile")
                               .WithOne()
-                              .HasForeignKey<GroupingProfile>("GroupingProfileId")
+                              .HasForeignKey<TransactionsProfile>("GroupingProfileId")
                               .OnDelete(DeleteBehavior.Cascade);
             }
         }
@@ -199,11 +200,56 @@ namespace AggregateDatabase
 
             }
         }
-   
+
+        class UploadManagerConfiguration : IEntityTypeConfiguration<UploadManager>
+        {
+            public void Configure(EntityTypeBuilder<UploadManager> builder)
+            {
+                builder.ToTable("UploadManager");
+
+                //corresponding user foreign key
+                builder.HasOne<User>()
+                        .WithOne()
+                        .HasForeignKey<UploadManager>("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                //corresponding transactions profile
+                builder.HasOne<TransactionsProfile>("_transactionsProfile")
+                        .WithOne()
+                        .HasForeignKey<UploadManager>("TransactionsProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                //preview
+                builder.OwnsOne<UploadPreview>("_preview", previewBuilder =>
+                {
+                    previewBuilder.WithOwner();
+                    previewBuilder.Property<RawCSVFile>("_file")
+                                  .HasColumnName("File")
+                                  .HasConversion(file => file.Serialize(),
+                                                 txt => RawCSVFile.Deserialize(txt));
+                });
+
+                //entries
+                builder.OwnsMany(b => b.History, summary =>
+                {
+                    summary.WithOwner();
+                    summary.Property(s => s.Name);
+                    summary.Property(s => s.First);
+                    summary.Property(s => s.Last);
+                    summary.Property(s => s.Size);
+                    summary.Property(s => s.UsefullCount);
+                    summary.Property(s => s.FirstAdded);
+                    summary.Property(s => s.LastAdded);
+                });
+                        
+
+            }
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<TransactionsProfile> TransactionProfiles { get; set; }
         public DbSet<GroupingProfile> GroupingProfiles { get; set; }
+        public DbSet<UploadManager> UploadHistories { get; set; }
 
     }
 }

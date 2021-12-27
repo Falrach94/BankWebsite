@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TransactionsService } from 'src/app/services/transactions/transactions.service';
 import { TransactionActions } from 'src/app/store/transactions/transactions.actions';
+import { UploadActions } from 'src/app/store/upload/upload.actions';
+import { UploadFacade } from '../../store/upload/upload.facade';
 
 @Component({
   selector: 'app-upload-page',
@@ -10,14 +12,30 @@ import { TransactionActions } from 'src/app/store/transactions/transactions.acti
 })
 export class UploadPageComponent implements OnInit {
 
-  constructor(private _store:Store){ 
+  summaries$ = this._uploadFacade.summaries$;
+  preview$ = this._uploadFacade.preview$;
+  hasPreview$ = this._uploadFacade.hasFilePreview$;
+  lastError$ = this._uploadFacade.lastError$;
+
+  constructor(private _uploadFacade : UploadFacade){ 
   }
 
   ngOnInit(): void {
+    this._uploadFacade.loadSummaries();
   }
 
-  uploadFile(file:File){
-    this._store.dispatch(TransactionActions.upload({file}))
+
+  onFileUploaded(file:File)
+  {
+    this._uploadFacade.setSelectedFile(file);
   }
+
+  confirmUpload()
+  {
+    this._uploadFacade.confirmUpload();
+  }
+
+
+
 
 }

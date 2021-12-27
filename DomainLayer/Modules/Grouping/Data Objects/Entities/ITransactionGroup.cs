@@ -1,4 +1,4 @@
-﻿using BankAccountDomainModel.Utility;
+﻿using DomainLayer.Utility;
 using BankAccountLib;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities
+namespace DomainLayer.Modules.Grouping.Data_Objects.Entities
 {
     public interface ITransactionGroup : IEntity
     {

@@ -1,4 +1,4 @@
-﻿using BankAccountDomainModel.Modules.Grouping.Data_Objects.Entities;
+﻿using DomainLayer.Modules.Grouping.Data_Objects.Entities;
 using BankAccountLib;
 using System;
 using System.Collections.Generic;

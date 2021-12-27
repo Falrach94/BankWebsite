@@ -1,1 +1,29 @@
-<app-upload (fileSelected)="this.uploadFile($event)"></app-upload>
+<div style="display: flex; flex-direction: column; align-items: center;">
+
+    <mat-card style="text-align: center;margin-top: 5pt;">
+        <mat-card-title>Upload CSV-MT940-File</mat-card-title>
+        <mat-card-content >
+            <app-upload (fileSelected)="this.onFileUploaded($event)"></app-upload>
+            <span style="color:red">{{(lastError$|async)?.message}}</span>
+            <div *ngIf="(preview$|async) as prev" align="left">
+                <div>Entries: {{prev.count}} </div>
+                <div>{{prev.earliest | date:'longDate'}} - {{prev.latest | date:'longDate'}}</div>
+            </div>
+        </mat-card-content>
+        
+        <mat-card-actions align="end">
+            <button [disabled]="!(hasPreview$ | async)" mat-button (click)="confirmUpload()">confirm upload</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <div style="margin-top: 20pt;">
+        <mat-card style="margin-top:5pt" *ngFor="let summary of (summaries$|async)">
+            <mat-card-title>{{summary.name}}</mat-card-title>
+            <mat-card-content>
+                Entries: {{summary.totalNumber}} <br>
+                {{summary.earliest | date:'longDate'}} - {{summary.latest | date:'longDate'}}
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+</div>

@@ -3,5 +3,7 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <app-group-container #groups></app-group-container>
+    <div>
+        <app-group *ngFor="let g of groups$ | async" [group] = "g"></app-group>    
+    </div>
 </div>

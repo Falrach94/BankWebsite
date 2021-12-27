@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { GroupsService } from 'src/app/services/groups/groups.service';
 import { AppState } from 'src/app/store';
 import { GroupActions } from 'src/app/store/groups/groups.actions';
-import { GroupContainerComponent } from '../../components/customs/group-container/group-container.component';
+import { GroupSelectors } from 'src/app/store/groups/groups.selectors';
 import { NewGroupDialog } from '../../components/dialogs/new-group/new-group.component';
 
 @Component({
@@ -13,13 +13,15 @@ import { NewGroupDialog } from '../../components/dialogs/new-group/new-group.com
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.css']
 })
-export class GroupsComponent {
-  @ViewChild(GroupContainerComponent) groups!:GroupContainerComponent;
+export class GroupsComponent implements OnInit {
 
-  groupChangedSubscription!:Subscription;
-
+  groups$ = this._store.select(GroupSelectors.getAllGroups);
 
   constructor(private _dialog: MatDialog, private _store: Store<AppState>) { }
+
+  ngOnInit(): void {
+    this._store.dispatch(GroupActions.loadAll());
+  }
 
   
 

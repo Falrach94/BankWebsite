@@ -27,8 +27,7 @@ import { UploadComponent } from './components/customs/upload/upload.component';
 import { TransactionComponent } from './components/customs/transaction/transaction.component';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
-import { GroupComponent } from './components/customs/group/group.component';
-import { GroupContainerComponent } from './components/customs/group-container/group-container.component';
+import { GroupComponent } from './pages/groups/group/group.component';
 import { NewGroupDialog } from './components/dialogs/new-group/new-group.component';
 
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
@@ -56,6 +55,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
+    
     AppComponent,
     LoginComponent,
     HomeComponent,
@@ -64,14 +64,13 @@ PlotlyModule.plotlyjs = PlotlyJS;
     UploadPageComponent,
     TransactionComponent,
     GroupComponent,
-    GroupContainerComponent,
     NewGroupDialog,
     ColorDialogComponent,
     SmallGroupComponent,
     GroupTitleComponent,
     GroupSelectorComponent,
     StringReplacementPipe,
-    SummaryComponent
+    SummaryComponent,
   ],
   imports: [
     BrowserModule,

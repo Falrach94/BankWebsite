@@ -13,10 +13,6 @@ export namespace TransactionActions{
     export const assignGroupSuccess = createAction("[Transaction] assignGroup success")
     export const assignGroupFailure = createAction("[Transaction] assignGroup failure", props<{error:any}>())
 
-    export const upload = createAction("[Transaction] upload", props<{file:File}>());
-    export const uploadSuccess = createAction("[Transaction] upload sucess");
-    export const uploadFailure = createAction("[Transaction] upload failure", props<{error:any}>());
-
     export const selectTransaction = createAction("[Transaction] selectTransaction", props<{transaction:ITransaction}>());
     export const deselectTransaction = createAction("[Transaction] deselectTransaction");
 
