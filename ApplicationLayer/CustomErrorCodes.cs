@@ -13,5 +13,6 @@ namespace ApplicationLayer
         NoPreviewSet,
         NoNewEntries,
         ParserError,
+        UnknownError,
     }
 }

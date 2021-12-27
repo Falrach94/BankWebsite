@@ -3,4 +3,5 @@ export interface UploadPreview{
     count: number;
     earliest: Date;
     latest: Date;
+    invalidData:boolean;
 }

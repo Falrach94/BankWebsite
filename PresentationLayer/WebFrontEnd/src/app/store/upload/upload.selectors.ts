@@ -10,6 +10,9 @@ export namespace UploadSelectors{
     
     export const getPreviewedFile = createSelector(getUploadState, 
         ({preview})=>preview);
+        
+    export const getUploadProgress = createSelector(getUploadState, 
+        ({uploadProgress})=>uploadProgress);
 
     export const getSummaries = createSelector(getUploadState, 
         ({summaries})=>[...summaries].sort((a,b)=>{
@@ -21,4 +24,7 @@ export namespace UploadSelectors{
         }))
     export const getLastError = createSelector(getUploadState,
         ({lastError})=> lastError);
+
+    export const isWaitingForResponse = createSelector(getUploadState,
+        ({waiting})=> waiting);
 }

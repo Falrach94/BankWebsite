@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { first } from "rxjs/operators";
+import { combineLatest } from "rxjs";
+import { first, map } from "rxjs/operators";
 import { UploadPreview } from "src/app/model/uploadPreview";
 import { UploadActions } from "src/app/store/upload/upload.actions";
 import { UploadSelectors } from "src/app/store/upload/upload.selectors";
@@ -17,7 +18,23 @@ export class UploadFacade{
 
     lastError$ = this._store.select(UploadSelectors.getLastError);
 
+    uploadProgress$ = this._store.select(UploadSelectors.getUploadProgress);
+    uploadOngoing$ = this.uploadProgress$.pipe(map(progress => progress !== -1))
+
+    waitingForResponse$ = this._store.select(UploadSelectors.isWaitingForResponse);
+
+    uploadPossible$ = combineLatest([this.lastError$.pipe(map(e=>e===undefined)), this.hasFilePreview$, this.uploadOngoing$])
+                        .pipe(map(vals => vals[0] && vals[1] && !vals[2]))
+
+    showProgressBar$ = combineLatest([this.uploadOngoing$, this.waitingForResponse$])
+                        .pipe(map(vals=> vals[0] || vals[1]))
+
     constructor(private _store:Store){}
+
+    updateUploadProgress(progress:number)
+    {
+        this._store.dispatch(UploadActions.uploadFileProgress({progress}))
+    }
 
     confirmUpload(){        
         this._store.dispatch(UploadActions.confirmUpload())

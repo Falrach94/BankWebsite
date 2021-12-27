@@ -16,6 +16,9 @@ export class UploadPageComponent implements OnInit {
   preview$ = this._uploadFacade.preview$;
   hasPreview$ = this._uploadFacade.hasFilePreview$;
   lastError$ = this._uploadFacade.lastError$;
+  uploadPossible$ = this._uploadFacade.uploadPossible$;
+  uploadProgress$ = this._uploadFacade.uploadProgress$
+  showProgressBar$ = this._uploadFacade.showProgressBar$;
 
   constructor(private _uploadFacade : UploadFacade){ 
   }

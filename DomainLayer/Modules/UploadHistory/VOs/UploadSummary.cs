@@ -26,23 +26,25 @@ namespace DomainLayer.Modules.UploadSupervisor.VOs
                 UploadStatus = UploadState.InvalidFileFormat;
                 return;
             }
-            
-            if(!transactions.Any())
+
+            Size = preview.Size;
+            First = preview.First;
+            Last = preview.Last;
+            UsefullCount = transactions.Count();
+            Transactions = transactions;
+
+            if (!transactions.Any())
             {
                 UploadStatus = UploadState.NoNewEntries;
             }
             else
             {
                 UploadStatus = UploadState.Successfull;
+
+                FirstAdded = transactions.Last().Data.BookingDate;
+                LastAdded = transactions.First().Data.BookingDate;
             }
 
-            Size = preview.Size;
-            First = preview.First;
-            Last = preview.Last;
-            UsefullCount = transactions.Count();
-            FirstAdded = transactions.First().Data.BookingDate;
-            LastAdded = transactions.Last().Data.BookingDate;
-            Transactions = transactions;
         }
 
         public string Name { get; }

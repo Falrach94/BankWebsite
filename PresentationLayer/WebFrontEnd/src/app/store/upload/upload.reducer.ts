@@ -13,12 +13,16 @@ export namespace UploadReducer{
     export interface State{
         preview?:UploadPreview,
         summaries:UploadSummary[],
-        lastError?:BackendError
+        lastError?:BackendError,
+        uploadProgress:number,
+        waiting:boolean
     }
     export const initialState :State = {
         preview:undefined,
         summaries:[],
-        lastError:undefined
+        lastError:undefined,
+        uploadProgress:-1,
+        waiting:false
     }
 
     export const stateFeatureKey = "upload";
@@ -26,34 +30,57 @@ export namespace UploadReducer{
     export const reducer = createReducer(
         initialState,
 
+        on(UploadActions.uploadFile,
+            (state, _) => ({
+                ...state,           
+                uploadProgress:1,
+            })),
+        on(UploadActions.uploadFileProgress,
+            (state, {progress}) => ({
+                ...state,           
+                uploadProgress:progress,
+            })),
         on(UploadActions.uploadFileSuccess,
             (state, {preview}) => ({
                 ...state,                
                 preview,
-                lastError:undefined
+                lastError:undefined,
+                uploadProgress:-1,
             })),
         on(UploadActions.uploadFileFailure,
             (state, {error}) => ({
                 ...state,                
-                lastError:error
+                lastError:error,
+                uploadProgress:-1,
             })),
+
+
+        on(UploadActions.confirmUpload,
+            (state, _) => ({
+                ...state,         
+                waiting:true
+            })),
+            
         on(UploadActions.confirmUploadFailure,
             (state, {error}) => ({
                 ...state,                
-                lastError:error
+                lastError:error,
+                waiting:false
             })),
         on(UploadActions.confirmUploadSuccess,
             (state, {summary}) => ({
                 ...state,                
                 summaries:[...state.summaries, summary],
-                lastError:undefined
+                lastError:undefined,
+                preview:undefined,
+                waiting:false
             })),
         on(UploadActions.loadSummariesSuccess,
             (state, {summaries}) => ({
                 ...state,
                 summaries:[...summaries],
                 lastError:undefined,
-                preview:undefined
+                preview:undefined,
             })),
     )
 }

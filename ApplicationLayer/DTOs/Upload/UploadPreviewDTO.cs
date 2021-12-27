@@ -9,7 +9,7 @@ namespace ApplicationLayer
         {
             Name = preview.Name;
 
-            if (!InvalidData)
+            if (!preview.InvalidData)
             {
                 Count = preview.Size;
                 Earliest = preview.First;

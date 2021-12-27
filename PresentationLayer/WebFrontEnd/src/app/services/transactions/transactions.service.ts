@@ -60,6 +60,9 @@ export class TransactionsService{// implements OnInit, OnDestroy {
 
     let url = `${environment.apiUrl}/transactions/upload/${this._accountService.getId()}`
 
-    return this._http.post<UploadPreview>(url, formData)
+    return this._http.post<UploadPreview>(url, formData,{
+      reportProgress:true,
+      observe:'events'
+    })
   }      
 }

@@ -57,7 +57,7 @@ namespace WebBackend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebBackend", Version = "v1" });
             });
 
-
+            
             services.AddDbContext<DatabaseContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGroupingProfileRepository, GroupingProfileRepository>();
@@ -75,11 +75,11 @@ namespace WebBackend
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebBackend v1"));
             }
-
+            app.UseExceptionHandler("/error");
             
             //app.UseHttpsRedirection();
 
@@ -87,7 +87,7 @@ namespace WebBackend
 
             app.UseCors("CorsPolicy");
             //app.UseCors();
-
+            
 
             //app.UseAuthorization();
 

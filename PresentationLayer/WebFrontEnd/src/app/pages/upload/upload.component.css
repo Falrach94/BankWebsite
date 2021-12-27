@@ -1,0 +1,14 @@
+.upload-row{
+    display: flex; 
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.upload-progress{
+ margin-left: 10pt;
+ margin-right: 10pt;
+}
+.upload-confirm{
+    min-width: 100pt;
+    margin-left: 20pt;
+    margin-right: 0pt;
+}

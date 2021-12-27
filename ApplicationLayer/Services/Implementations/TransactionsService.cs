@@ -114,6 +114,7 @@ namespace ApplicationLayer
                 foreach(var t in summary.Transactions)
                 {
                     _dc.Entry(t).State = EntityState.Added;
+                    _dc.Entry(t).Reference(t => t.Data).TargetEntry.State = EntityState.Added;
                 }
                 await _dc.SaveChangesAsync();
             }

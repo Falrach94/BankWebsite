@@ -77,7 +77,7 @@ namespace WebBackend.Controllers
                 {
                     csvFile = await RawCSVFile.LoadAsync(file.FileName, stream);
                 }
-                catch(Exception)
+                catch
                 {
                     var error = new ErrorDTO(CustomErrorCodes.ParserError, "File could not be parsed!");
                     return BadRequest(error);
@@ -114,7 +114,7 @@ namespace WebBackend.Controllers
                 case UploadState.NoNewEntries:
                     return BadRequest(new ErrorDTO(CustomErrorCodes.NoNewEntries, "CSV-File didn't contain new data!"));
                 default:
-                    return StatusCode(500,  "Unkown error occured!");
+                    return StatusCode(500, new ErrorDTO(CustomErrorCodes.UnknownError, "Internal Server Error"));
             }
         }
     

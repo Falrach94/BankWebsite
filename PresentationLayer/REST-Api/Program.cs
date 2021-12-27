@@ -21,16 +21,19 @@ namespace WebBackend
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    
                     /*
                     webBuilder.ConfigureKestrel(o =>
                     {
+                        /*
                         o.ConfigureHttpsDefaults(o =>
                         {
-                            o.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                            //o.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
                         });
                     });*/
                     webBuilder.UseUrls( "http://*:5000");
                     webBuilder.UseStartup<Startup>();
+                    
                 });
     }
 }

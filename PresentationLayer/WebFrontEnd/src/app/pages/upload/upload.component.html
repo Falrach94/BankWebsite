@@ -11,8 +11,17 @@
             </div>
         </mat-card-content>
         
-        <mat-card-actions align="end">
-            <button [disabled]="!(hasPreview$ | async)" mat-button (click)="confirmUpload()">confirm upload</button>
+
+        <mat-card-actions class="upload-row">
+            <button class="upload-confirm"
+                    [disabled]="!(uploadPossible$ | async)" 
+                    mat-button (click)="confirmUpload()">confirm upload</button>
+            <ng-container *ngIf="(uploadProgress$ | async) as prog">
+                <mat-progress-bar   *ngIf="(showProgressBar$ | async)"
+                                    class="upload-progress"
+                                    [mode]="prog===-1 ? 'indeterminate': 'determinate'" 
+                                    [value] = "prog" ></mat-progress-bar>
+            </ng-container>
         </mat-card-actions>
     </mat-card>
 

@@ -22,6 +22,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule } from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop'
 import {MatTreeModule} from '@angular/material/tree';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { UploadComponent } from './components/customs/upload/upload.component';
 import { TransactionComponent } from './components/customs/transaction/transaction.component';
@@ -90,6 +91,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatTreeModule,
     ReactiveFormsModule,
     PlotlyModule,
+    MatProgressBarModule,
     
     StoreModule.forRoot(AppReducers, {metaReducers:AppMetaReducers}),
     EffectsModule.forRoot(AppEffects),
